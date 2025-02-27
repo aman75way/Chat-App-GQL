@@ -3,7 +3,7 @@ const GenderCheckbox = ({
 	onCheckboxChange,
 }: {
 	selectedGender: string;
-	onCheckboxChange: (gender: "male" | "female") => void;
+	onCheckboxChange: (gender: "MALE" | "FEMALE") => void;
 }) => {
 	return (
 		<div className='flex'>
@@ -13,8 +13,8 @@ const GenderCheckbox = ({
 					<input
 						type='checkbox'
 						className='checkbox border-white'
-						checked={selectedGender === "male"}
-						onChange={() => onCheckboxChange("male")}
+						checked={selectedGender === "MALE"}
+						onChange={() => onCheckboxChange("MALE")}
 					/>
 				</label>
 			</div>
@@ -24,8 +24,8 @@ const GenderCheckbox = ({
 					<input
 						type='checkbox'
 						className='checkbox border-white'
-						checked={selectedGender === "female"}
-						onChange={() => onCheckboxChange("female")}
+						checked={selectedGender === "FEMALE"}
+						onChange={() => onCheckboxChange("FEMALE")}
 					/>
 				</label>
 			</div>

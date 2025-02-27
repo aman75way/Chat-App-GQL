@@ -1,13 +1,13 @@
-import React, { useState, useEffect, Suspense, lazy } from 'react';
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
-import SignUp from './pages/SignUp';
-import Login from './pages/Login';
-import { useAuthContext } from './context/AuthContext';
-import { Toaster } from 'react-hot-toast';
-import LoadingBar from 'react-top-loading-bar';
-import ErrorBoundary from '../src/utils/errorboundary';
+import React, { useState, useEffect, Suspense, lazy } from "react";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import SignUp from "./pages/SignUp";
+import Login from "./pages/Login";
+import { useAuthContext } from "./context/AuthContext";
+import { Toaster } from "react-hot-toast";
+import LoadingBar from "react-top-loading-bar";
+import ErrorBoundary from "../src/utils/errorboundary";
 
-const Home = lazy(() => import('./pages/Home'));
+const Home = lazy(() => import("./pages/Home"));
 
 const App: React.FunctionComponent = (): React.ReactElement => {
   const [progress, setProgress] = useState(0);
@@ -24,6 +24,15 @@ const App: React.FunctionComponent = (): React.ReactElement => {
       }, 500);
     }, 1000);
   }, [location, isLoading]);
+
+  // 🔹 **Show loading state while auth is still fetching**
+  if (isLoading) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <h1 className="text-lg font-semibold">Loading...</h1>
+      </div>
+    );
+  }
 
   return (
     <ErrorBoundary>

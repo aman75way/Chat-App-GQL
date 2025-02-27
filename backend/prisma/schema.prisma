@@ -13,8 +13,7 @@ model User {
   fullName   String
   password   String
   profilePic String?
-  active     Boolean?
-  role       Role
+  active     Boolean? @default(false)
   gender     Gender
   createdAt  DateTime @default(now()) //member since
   updatedAt  DateTime @updatedAt
@@ -49,12 +48,6 @@ model Message {
   body      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-}
-
-enum Role {
-  ADMIN
-  GADMIN
-  USER
 }
 
 enum Gender {

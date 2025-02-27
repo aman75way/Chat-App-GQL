@@ -1,31 +1,26 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@apollo/client";
 import useConversation from "../zustand/useConversation";
 import toast from "react-hot-toast";
+import { GET_MESSAGES } from "../api";
 
 const useGetMessages = () => {
-	const [loading, setLoading] = useState(false);
-	const { messages, setMessages, selectedConversation } = useConversation();
+  const { messages, setMessages, selectedConversation } = useConversation();
 
-	useEffect(() => {
-		const getMessages = async () => {
-			if (!selectedConversation) return;
-			setLoading(true);
-			setMessages([]);
-			try {
-				const res = await fetch(`/api/messages/${selectedConversation.id}`);
-				const data = await res.json();
-				if (!res.ok) throw new Error(data.error || "An error occurred");
-				setMessages(data);
-			} catch (error: any) {
-				toast.error(error.message);
-			} finally {
-				setLoading(false);
-			}
-		};
+  const { data, loading, error } = useQuery(GET_MESSAGES, {
+    variables: { userToChatId: selectedConversation?.id },
+    // skip: !selectedConversation,
+    onError: (err) => {
+      console.error("Error fetching messages:", err.message);
+      toast.error("Failed to load messages!");
+    },
+  });
 
-		getMessages();
-	}, [selectedConversation, setMessages]);
+  // Update messages state when new data is received
+  if (data && data.messages !== messages) {
+    setMessages(data.messages);
+  }
 
-	return { messages, loading };
+  return { messages, loading, error };
 };
+
 export default useGetMessages;

@@ -1,30 +1,20 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@apollo/client";
 import toast from "react-hot-toast";
+import { GET_CONVERSATIONS } from "../api";
 
 const useGetConversations = () => {
-	const [loading, setLoading] = useState(false);
-	const [conversations, setConversations] = useState<ConversationType[]>([]);
+  const { data, loading, error } = useQuery(GET_CONVERSATIONS, {
+    onError: (err) => {
+      console.error("Error fetching conversations:", err.message);
+      toast.error("Failed to load conversations!");
+    },
+  });
 
-	useEffect(() => {
-		const getConversations = async () => {
-			setLoading(true);
-			try {
-				const res = await fetch("/api/messages/conversations");
-				const data = await res.json();
-				if (data.error) {
-					throw new Error(data.error);
-				}
-				setConversations(data);
-			} catch (error: any) {
-				toast.error(error.message);
-			} finally {
-				setLoading(false);
-			}
-		};
-
-		getConversations();
-	}, []);
-
-	return { loading, conversations };
+  return {
+    conversations: data?.conversations || [],
+    loading,
+    error,
+  };
 };
+
 export default useGetConversations;

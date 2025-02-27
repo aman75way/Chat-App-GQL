@@ -1,11 +1,15 @@
-import { gql } from "graphql-tag";
-import UserController from "./user.controller";
-import { Gender, Role } from "@prisma/client";
+import { gql } from "apollo-server";
 
-export const typeDefs = gql`
-  enum Role {
-    USER
-    ADMIN
+export const userTypeDefs = gql`
+  type User {
+    id: String!
+    email: String!
+    fullName: String!
+    profilePic: String
+    active: Boolean
+    gender: Gender
+    createdAt: String
+    updatedAt: String
   }
 
   enum Gender {
@@ -13,19 +17,10 @@ export const typeDefs = gql`
     FEMALE
   }
 
-  type User {
-    id: ID!
-    email: String!
-    fullName: String!
-    profilePic: String
-    role: Role!
-    gender: Gender
-  }
-
   type AuthPayload {
     accessToken: String!
     refreshToken: String!
-    user: User
+    user: User!
   }
 
   type Query {
@@ -33,31 +28,8 @@ export const typeDefs = gql`
   }
 
   type Mutation {
-    register(
-      email: String!
-      fullName: String!
-      password: String!
-      confirmPassword: String!
-      gender: Gender!
-      role: Role = USER # ✅ Default to USER if not provided
-    ): AuthPayload!
-
-    login(email: String!, password: String!): AuthPayload!
-    refreshToken(refreshToken: String!): String!
-    logout: Boolean!
+    signup(email: String!, password: String!, fullName: String!, gender: Gender!): AuthPayload
+    login(email: String!, password: String!): AuthPayload
+    logout: Boolean
   }
 `;
-
-export const resolvers = {
-  Query: {
-    me: UserController.me,
-  },
-  Mutation: {
-    register: async (_: any, { email, fullName, password, confirmPassword, gender, role = Role.USER }: { email : string, fullName : string, password : string, confirmPassword : string, gender : Gender, role : Role}, { res }: any) => {
-      return UserController.register(_, { user: { email, fullName, password, confirmPassword, gender, role } }, { res });
-    },
-    login: UserController.login,
-    refreshToken: UserController.refreshToken,
-    logout: UserController.logout,
-  },
-};

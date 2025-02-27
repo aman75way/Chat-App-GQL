@@ -1,40 +1,26 @@
-import { gql } from "graphql-tag";
-import MessageController from "./message.controller";
+import { gql } from "apollo-server";
 
-export const typeDefs = gql`
+export const messageTypeDefs = gql`
   type Message {
-    id: ID!
+    id: String!
     senderId: String!
-    conversationId: String!
     body: String!
+    conversationId: String!
     createdAt: String!
   }
 
+  type User {
+    id: String!
+    fullName: String!
+    profilePic: String!
+  }
+
   type Query {
-    getMessages(conversationId: String!): [Message!]
+    getMessages(userToChatId: String!): [Message]!
+    conversations: [User]!
   }
 
   type Mutation {
-    sendMessage(conversationId: String!, senderId: String!, body: String!): Message!
-  }
-
-  type Subscription {
-    messageSent(conversationId: String!): Message!
+    sendMessage(receiverId: String!, message: String!): Message!
   }
 `;
-
-export const resolvers = {
-  Query: {
-    getMessages: MessageController.getMessages,
-  },
-  Mutation: {
-    sendMessage: MessageController.sendMessage,
-  },
-  Subscription: {
-    messageSent: {
-      subscribe: (_: any, { conversationId }: any, { pubsub }: any) => {
-        return pubsub.asyncIterator(`MESSAGE_${conversationId}`);
-      },
-    },
-  },
-};
