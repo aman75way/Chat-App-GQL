@@ -1,145 +1,131 @@
-# Project Name: 75 Chat App
 
-## Overview
+Here’s a **`README.md`** for your **Chat App (GraphQL + Apollo Server + Prisma)**:
 
-75 Chat App is a real-time chat application built using the PERN stack (PostgreSQL, Express.js, React, Node.js). The application provides users with the ability to create accounts, log in, and engage in real-time messaging with other users. It features a responsive UI, real-time updates via WebSockets, and secure authentication mechanisms.
+----------
 
-## Technologies Used
+# **Chat App (GraphQL + Apollo Server + Prisma)**
 
-- **Frontend:**
-  - React with TypeScript
-  - Zustand for state management
-  - React Router DOM for navigation
-  - Tailwind CSS for styling
-  - Socket.IO for real-time communication
-  - Vite for development server and build tool
+A **real-time chat application** built with **React, Apollo Client, GraphQL, Prisma, and PostgreSQL**. This project replaces **REST + Socket.IO** with **GraphQL Queries, Mutations, and Subscriptions** while maintaining all core functionalities.
 
-- **Backend:**
-  - Node.js with Express.js
-  - Prisma ORM for database interaction
-  - bcryptjs for password hashing
-  - JSON Web Tokens for authentication
-  - Socket.IO for real-time communication
+----------
 
-- **Database:**
-  - PostgreSQL with Prisma as the ORM
+## 🚀 **Features**
 
-## Folder Structure
+✅ **User Authentication** (JWT-based with access & refresh tokens)  
+✅ **One-on-One Messaging** (Real-time with GraphQL Subscriptions)  
+✅ **Conversations List** (Fetch user’s chat history)  
+✅ **Search Users** (Find users by name)  
+✅ **Optimistic UI Updates** (Seamless chat experience)  
+✅ **Prisma ORM** (Efficient database queries)  
+✅ **Apollo Client for GraphQL** (Cache, Queries & Mutations)
+
+----------
+
+## 🛠️ **Tech Stack**
+
+### **Frontend**
+
+-   **React + TypeScript** (⚛️ Modern UI)
+-   **Apollo Client** (GraphQL Queries & Subscriptions)
+-   **Zustand** (State Management)
+-   **Tailwind CSS** (Responsive UI)
+
+### **Backend**
+
+-   **GraphQL (Apollo Server)** (🔗 Queries, Mutations & Subscriptions)
+-   **Prisma ORM** (Efficient DB Queries)
+-   **PostgreSQL** (Scalable database)
+-   **JWT Authentication** (Access & Refresh Tokens)
+-   **GraphQL Context Middleware** (Protects API routes)
+
+----------
+
+## 🔧 **Setup Instructions**
+
+### **1️⃣ Clone the Repository**
+
+```sh
+git clone https://github.com/aman75way/Chat-App-GQL.git
+cd Chat-App-GQL
 
 ```
-project-root/
-│
-├── backend/
-│   ├── app/
-│   │   ├── common/
-│   │   ├── message/
-│   │   └── user/
-│   ├── prisma/
-│   └── index.ts
-│
-├── frontend/
-│   ├── public/
-│   └── src/
-│       ├── components/
-│       ├── context/
-│       ├── hooks/
-│       ├── pages/
-│       ├── types/
-│       └── zustand/
-│
-└── README.md
+
+### **2️⃣ Install Dependencies**
+
+#### **Frontend**
+
+```sh
+cd frontend
+npm install
+
 ```
 
-## Running the Project
+#### **Backend**
 
-### Prerequisites
+```sh
+cd backend
+npm install
 
-- Node.js and npm installed
-- PostgreSQL database setup and running
+```
 
-### Backend Setup
+### **3️⃣ Set Up Environment Variables**
 
-1. Navigate to the backend directory:
-   ```bash
-   cd backend
-   ```
+Create a `.env` file in the **backend** folder with the following:
 
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
+```env
+DATABASE_URL=postgresql://USER:PASSWORD@localhost:5432/chatapp
+JWT_SECRET=your_jwt_secret
+ACCESS_TOKEN_SECRET=your_access_secret
+REFRESH_TOKEN_SECRET=your_refresh_secret
 
-3. Set up the database with Prisma:
-   ```bash
-   npx prisma migrate dev
-   ```
+```
 
-4. Start the backend server:
-   ```bash
-   npm run dev
-   ```
+### **4️⃣ Start the Development Server**
 
-### Frontend Setup
+#### **Backend**
 
-1. Navigate to the frontend directory:
-   ```bash
-   cd frontend
-   ```
+```sh
+cd backend
+npm run dev
 
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
+```
 
-3. Start the frontend development server:
-   ```bash
-   npm run dev
-   ```
+#### **Frontend**
 
-### Accessing the Application
+```sh
+cd frontend
+npm run dev
 
-- Open your browser and navigate to `http://localhost:5173` to access the chat application.
+```
 
-### Swagger Documentation
+Open **`http://localhost:3000`** to view the chat app.
 
-- Open your browser and navigate to `http://localhost:5000/api/docs` to access the Swagger documentation for the backend API.
+----------
 
-### Endpoints
+## 🎯 **GraphQL API Endpoints**
 
-- `POST /auth/signup`: Signup endpoint to create a new user.
-- `POST /auth/login`: Login endpoint to authenticate a user.
-- `GET /auth`: Get endpoint to retrieve the current user's details.
-- `POST /auth/logout`: Logout endpoint to log out a user.
-  
-- `GET /message/conversations`: Get endpoint to retrieve a list of users for the sidebar.
-- `GET /message/:id`: Get endpoint to retrieve a list of messages for a specific conversation.
-- `POST /message/send/:id`: Post endpoint to send a new message to a specific conversation.
+### 🔹 **User Authentication**
+
+-   `me(Token Based)`
+-   `lgouot(Token Based)`
+-   `registerUser(username, email, password, gender)`
+-   `loginUser(email, password)`
+
+### 🔹 **Messaging**
+
+-   `getMessage`
+-   `sendMessage(conversationId, message)`
+-   `getConversations(conversationId)`
+
+### 🔹 **Search**
 
 
+----------
 
+## 🛠️ **Future Enhancements**
 
-/src
- ├── common
- │   ├── middlewares
- │   │   ├── auth.middleware.ts
- │   ├── helper
- │   │   ├── catch-error.helper.ts
- │   ├── services
- │   │   ├── database.service.ts
- │   ├── dto
- │   │   ├── base.dto.ts
- │   │   ├── user.dto.ts
- │   │   ├── message.dto.ts
- ├── modules
- │   ├── user
- │   │   ├── user.controller.ts
- │   │   ├── user.service.ts
- │   │   ├── user.schema.ts  (GraphQL TypeDefs & Resolvers)
- │   ├── message
- │   │   ├── message.controller.ts
- │   │   ├── message.service.ts
- │   │   ├── message.schema.ts (GraphQL TypeDefs & Resolvers)
- ├── prisma
- │   ├── schema.prisma
- ├── index.ts  (Apollo Server Setup)
- ├── graphql.ts (GraphQL Schema Loader)
+✅ **Message Read Receipts**  
+✅ **Typing Indicators**  
+✅ **Group Chats**
+
+----------
